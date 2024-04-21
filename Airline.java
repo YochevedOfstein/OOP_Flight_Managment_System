@@ -6,6 +6,7 @@ public class Airline implements AirlineComponent{
     private List<Flight> flights;
     private List<Airline> subAirlines;
     private List<AirlineWorker> workers;
+    private List<Person> observers;
 
     private boolean hasFather;
     public Airline(String name){
@@ -13,6 +14,7 @@ public class Airline implements AirlineComponent{
         this.flights = new ArrayList<>();
         this.subAirlines = new ArrayList<>();
         this.workers = new ArrayList<>();
+        this.observers = new ArrayList<>();
     }
 
     @Override
@@ -20,13 +22,16 @@ public class Airline implements AirlineComponent{
         return name;
     }
 
-    public List<Flight> getFlights(){
-        return flights;
+
+    public void notifyObservers(String notification) {
+        for (Observer observer : observers) {
+            observer.update(notification);
+        }
     }
 
     public void addSubAirline(Airline a){
         if(subAirlines.contains(a) || a.hasFather){
-            System.out.println(a + "is a sub airline already");
+            System.out.println("Error - " + a.getName() + " is a sub airline already");
         }
         else{
             subAirlines.add(a);
@@ -83,12 +88,7 @@ public class Airline implements AirlineComponent{
     }
 
     public void addObserver(Person p){
-        for(Flight flight : flights){
-            flight.addObserver(p);
-        }
-        for(Airline subairline : subAirlines){
-            subairline.addObserver(p);
-        }
+        observers.add(p);
     }
 
     @Override
@@ -101,6 +101,24 @@ public class Airline implements AirlineComponent{
             sum += subairline.totalPayment();
         }
         return sum;
+    }
+
+    public void safetyPolicyChanges(){
+        String str = "Policy change- all passengers and staff must wear mask while in the airport and on flight";
+        notifyObservers(str);
+    }
+
+    public void airlineDeal(int sale){
+        String str = "New deal- All " + getName() + "s flights are " + sale + " percent off!";
+        notifyObservers(str);
+        for(Flight f: flights){
+            f.sale(sale);
+        }
+    }
+
+    public void happyHoliday(){
+        String str = "Wishing all of " + getName() + "s workers and passengers happy holidays!";
+        notifyObservers(str);
     }
 
 }

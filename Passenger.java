@@ -14,6 +14,7 @@ public class Passenger extends Person{
     public void bookFlight(Flight f){
         f.addPassenger(this);
         bookedflights.add(f);
+        f.addObserver(this);
     }
 
     public void unBookFlight(Flight f){

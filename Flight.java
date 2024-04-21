@@ -62,7 +62,10 @@ public class Flight implements AirlineComponent{
         }
     }
 
-    public void addObserver(Person a){observers.add(a);}
+    public void addObserver(Person a){
+        observers.add(a);
+        airline.addObserver(a);
+    }
 
     public void removePassenger(Passenger p){
         passengers.remove(p);
@@ -84,9 +87,14 @@ public class Flight implements AirlineComponent{
     }
 
     public void changeDepartureTime(int deptime){
-        this.departure = deptime;
-        String str = "Flight " + flightNumber + " departure time has changed to " + deptime;
-        notifyObservers(str);
+        if(canceled){
+            System.out.println("Error - can't change departure time on canceled flight");
+        }
+        else{
+            this.departure = deptime;
+            String str = "Flight " + flightNumber + " departure time has changed to " + deptime;
+            notifyObservers(str);
+        }
     }
     public void cancelFlight(){
         if(!canceled){
@@ -97,9 +105,14 @@ public class Flight implements AirlineComponent{
         }
     }
     public void sale(int n){
-        int sale = (n * price)/100;
-        price = price - sale;
-        String str = "Sale on flight " + flightNumber + "! New price: " + price;
-        notifyObservers(str);
+        if(canceled){
+            System.out.println("Error - can't have sale on canceled flight");
+        }
+        else{
+            int sale = (n * price)/100;
+            price = price - sale;
+            String str = "Sale on flight " + flightNumber + "! New price: " + price;
+            notifyObservers(str);
+        }
     }
 }

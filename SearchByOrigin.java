@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -11,24 +12,18 @@ public class SearchByOrigin implements SearchFlightStrategy{
     }
     @Override
     public void sort(List<Flight> flights) {
-        int count = 0;
-        for (Flight f : flights) {
-            if (Objects.equals(f.getOrigin(), origin)) {
-                flights.remove(f);
-                flights.add(0, f);
-                count++;
-            }
-            if (count == 0) {
-                System.out.println("No flights from the following origin found");
+        List<Flight> wantedFlights = new ArrayList<>();
+        for (Flight f: flights){
+            if(Objects.equals(f.getOrigin(), origin)){
+                wantedFlights.add(f);
             }
         }
+        if(wantedFlights.isEmpty()){
+            System.out.println("No flights with the following origin: " + origin);
+        }
+        else{
+            flights.clear();
+            flights.addAll(wantedFlights);
+        }
     }
-
-    /*
-    @Override
-    public void sort(List<Flight> flights) {
-        flights.sort(Comparator.comparing(Flight::getOrigin));
-    }
-
-     */
 }

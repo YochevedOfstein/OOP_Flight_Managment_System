@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,18 +10,21 @@ public class SearchByFlightNumber implements SearchFlightStrategy{
     public SearchByFlightNumber(String flightNumber){
         this.flightNumber = flightNumber;
     }
+
     @Override
     public void sort(List<Flight> flights) {
-        int count = 0;
-        for (Flight f : flights) {
-            if (Objects.equals(f.getName(), flightNumber)) {
-                flights.remove(f);
-                flights.add(0, f);
-                count++;
+        List<Flight> wantedFlights = new ArrayList<>();
+        for (Flight f: flights){
+            if(Objects.equals(f.getName(), flightNumber)){
+                wantedFlights.add(f);
             }
-            if (count == 0) {
-                System.out.println("No flights with the following flight number found");
-            }
+        }
+        if(wantedFlights.isEmpty()){
+           System.out.println("No flights with the following flight number: " + flightNumber );
+        }
+        else{
+            flights.clear();
+            flights.addAll(wantedFlights);
         }
     }
 }

@@ -3,9 +3,11 @@ import java.util.List;
 
 public class AirlineSystem {
     private List<Airline> airlines;
+    private List<Flight> flights;
 
     public AirlineSystem() {
         this.airlines = new ArrayList<>();
+        this.flights = new ArrayList<>();
     }
 
     public Airline createAirline(String name){
@@ -16,6 +18,7 @@ public class AirlineSystem {
 
     public Flight createFlight(String flightNumber, int price, Airline airline, String origin, String destination, double flightLength, int departure){
         Flight newflight = new Flight(flightNumber, price, airline, origin, destination, flightLength, departure);
+        flights.add(newflight);
         return newflight;
     }
 
@@ -42,19 +45,22 @@ public class AirlineSystem {
         w.changeAirline(a);
     }
 
-    public void becomeObserver(Passenger p, Flight f){
+    public void becomeFlightObserver(Passenger p, Flight f){
         p.becomeFlightObserver(f);
     }
 
+    public void becomeAirlineObserver(Passenger p, Airline a) {
+        p.becomeAirlineObserver(a);
+    }
 
     public void getNumberOfFlights(Airline a){
         int num = a.numOfFlights();
         System.out.println("Total number of flights in " + a.getName()+ ":" + num);
     }
 
-    public void getNumberOfPassengers(Airline a){
+    public void getNumberOfSoldTickets(Airline a){
         int num = a.numOfPassengers();
-        System.out.println("Total number of passengers in " + a.getName() + ":" + num);
+        System.out.println("Total number of sold tickets in " + a.getName() + ":" + num);
     }
 
     public void getNumberOfSubAirlines(Airline a){
@@ -77,7 +83,7 @@ public class AirlineSystem {
         getNumberOfSubAirlines(a);
         getNumberOfFlights(a);
         getNumberOfWorkers(a);
-        getNumberOfPassengers(a);
+        getNumberOfSoldTickets(a);
         getEstimatedIncome(a);
 
     }
@@ -94,8 +100,27 @@ public class AirlineSystem {
         f.sale(percent);
     }
 
+    public void announceNewDeal(Airline a, int percent){
+        a.airlineDeal(percent);
+    }
+
+    public void happyHolidayMessage(Airline a){
+        a.happyHoliday();
+    }
+
+    public void newSafetyPolicy(Airline a){
+        a.safetyPolicyChanges();
+    }
+
 
     public void printNotifications(Person p){
         p.printNotifications();
+    }
+
+
+    public void searchNewFlight(){
+        List<Flight> forSearch = flights;
+        SearchFlight s = new SearchFlight(forSearch);
+        s.preformSearch();
     }
 }

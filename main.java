@@ -15,6 +15,8 @@ public class main {
         AirlineWorker worker2 = new AirlineWorker("Guy2", 22, arkia);
         AirlineWorker worker3 = new AirlineWorker("Guy3", 33, israir);
 
+        program.addSubAirline(israir, arkia);
+
         program.addWorkers(ElAl, worker1);
         program.addWorkers(israir, worker2);
         program.addWorkers(arkia, worker3);
@@ -30,23 +32,23 @@ public class main {
         program.addFlight(L2308.getAirline(), L2308);
         program.addFlight(J0094.getAirline(), J0094);
 
-        program.becomeObserver(passenger1, L2308);
-        program.becomeObserver(passenger2, J0094);
-
         program.addPassengerToFlight(A5007, passenger1);
         program.addPassengerToFlight(L2308, passenger2);
         program.addPassengerToFlight(J0094, passenger3);
         program.addPassengerToFlight(L2308, passenger1);
+        program.addPassengerToFlight(J0094, passenger1);
+
+        program.searchNewFlight();
 
         program.getNumberOfFlights(ElAl);
 
-        program.getNumberOfPassengers(israir);
+        program.getNumberOfSoldTickets(israir);
 
         program.cancelFlight(L2308);
 
         program.getNumberOfFlights(ElAl);
 
-        program.getNumberOfPassengers(israir);
+        program.getNumberOfSoldTickets(israir);
 
         program.announceSale(A5007, 15);
 
@@ -54,17 +56,23 @@ public class main {
 
         Flight Y2245 = program.createFlight("Y2245", 532, israir, "Rome", "Israel", 4.5, 8);
 
-        program.addPassengerToFlight(Y2245, passenger1);
+        program.addPassengerToFlight(Y2245, passenger2);
 
         program.removePassengerFromFlight(J0094, passenger3);
 
-        program.printNotifications(passenger1);
-
         Airline Delta = program.createAirline("Delta");
-
 
         program.changeWorkPlace(Delta, worker3);
 
+        program.becomeAirlineObserver(passenger1, Delta);
+
+        program.announceNewDeal(ElAl, 10);
+
+        program.newSafetyPolicy(Delta);
+
+        program.happyHolidayMessage(israir);
+
+        program.printNotifications(passenger1);
 
         program.getAirlineData(ElAl);
     }
