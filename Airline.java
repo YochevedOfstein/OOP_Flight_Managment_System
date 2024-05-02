@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Airline implements AirlineComponent{
+public class Airline implements AirlineComponent, Observable{
     private final String name;
     private List<Flight> flights;
     private List<Airline> subAirlines;
